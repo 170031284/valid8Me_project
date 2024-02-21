@@ -12,7 +12,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: "us-east-1a"  # Replace with your AWS region
+      AWS_DEFAULT_REGION: "us-east-1"  # Replace with your AWS region
       TF_CLI_ARGS: "-input=false -auto-approve"  # Optional Terraform CLI arguments
 
     steps:
