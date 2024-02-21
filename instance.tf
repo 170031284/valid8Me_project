@@ -1,7 +1,7 @@
 
 # Create a security group
 resource "aws_security_group" "ec2_security_group" {
-  name        = "ec2-security-group"
+  name        = "ec2-security-groups"
   description = "Allow incoming traffic on ports 22 and 80"
   
   ingress {
