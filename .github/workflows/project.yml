@@ -3,7 +3,7 @@ name: Terraform Deployment
 on:
   push:
     branches:
-      - main
+      - main  # Change to your main branch name
 
 jobs:
   deploy:
@@ -12,24 +12,20 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: "us-east-1a"
-      TF_CLI_ARGS: "-input=false -auto-approve"
+      AWS_DEFAULT_REGION: "us-east-1a"  # Replace with your AWS region
+      TF_CLI_ARGS: "-input=false -auto-approve"  # Optional Terraform CLI arguments
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Download and extract Terraform
-      run: |
-       curl -Lo terraform.zip https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip
-        unzip terraform.zip
-        chmod +x terraform
-        mv terraform /usr/local/bin/
-        terraform --version
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: v1.7.3  # Updated Terraform version
 
     - name: Terraform Init
-      run: terraform init $TF_CLI_ARGS -backend=false
-
+      run: terraform init -upgrade=true
 
     - name: Terraform Plan
       run: terraform plan 
@@ -37,10 +33,10 @@ jobs:
     - name: Terraform Apply
       run: terraform apply 
 
+    # - name: Cleanup
+    #   run: terraform destroy -auto-approve
+    #   if: always()
+
     - name: Notify on failure
       if: failure()
       run: echo "Terraform deployment failed. Check the workflow logs for details."
-
-
-
-
