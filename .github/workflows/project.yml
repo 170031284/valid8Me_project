@@ -19,16 +19,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.4.6
-
-    - name: Add Terraform directory to PATH
-      run: echo 'export PATH=$PATH:/C/devops tools' >> $GITHUB_ENV
+    - name: Download and extract Terraform
+      run: |
+        mkdir -p $HOME/terraform
+        curl -Lo $HOME/terraform/terraform.zip https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip
+        unzip -d $HOME/terraform $HOME/terraform/terraform.zip
+        echo "export PATH=\$PATH:$HOME/terraform" >> $HOME/.bashrc
+        source $HOME/.bashrc
 
     - name: Terraform Init
-      run:  C:/devops tools/terraform.exe init -upgrade=true -backend=false
+      run: terraform init -upgrade=true -backend=false
 
     - name: Terraform Plan
       run: terraform plan 
@@ -39,3 +39,7 @@ jobs:
     - name: Notify on failure
       if: failure()
       run: echo "Terraform deployment failed. Check the workflow logs for details."
+
+
+
+
