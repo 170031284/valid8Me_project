@@ -21,11 +21,11 @@ jobs:
 
     - name: Download and extract Terraform
       run: |
-        mkdir -p $HOME/terraform
-        curl -Lo $HOME/terraform/terraform.zip https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip
-        unzip -d $HOME/terraform $HOME/terraform/terraform.zip
-        echo "export PATH=\$PATH:$HOME/terraform" >> $HOME/.bashrc
-        source $HOME/.bashrc
+       curl -Lo terraform.zip https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip
+        unzip terraform.zip
+        chmod +x terraform
+        mv terraform /usr/local/bin/
+        terraform --version
 
     - name: Terraform Init
       run: terraform init -upgrade=true -backend=false
