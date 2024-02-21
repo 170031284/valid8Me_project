@@ -28,7 +28,7 @@ jobs:
       run: echo 'export PATH=$PATH:/C/devops tools' >> $GITHUB_ENV
 
     - name: Terraform Init
-      run: terraform init -upgrade=true -backend=false
+      run:  C:/devops tools/terraform.exe init -upgrade=true -backend=false
 
     - name: Terraform Plan
       run: terraform plan 
