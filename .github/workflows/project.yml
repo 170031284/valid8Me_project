@@ -25,7 +25,9 @@ jobs:
           terraform_version: v1.7.3
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+          terraform init
+          terraform providers schema -upgrade
 
       - name: Terraform Validate
         run: terraform validate
