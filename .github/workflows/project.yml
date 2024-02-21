@@ -25,7 +25,7 @@ jobs:
         terraform_version: 1.4.6  # Adjust to your preferred Terraform version
 
     - name: Terraform Init
-      run: "C:\\devops tools\\terraform.exe init -upgrade=true -backend=false"
+      run: '"C:\\devops tools\\terraform.exe" init -upgrade=true -backend=false'
 
     - name: Terraform Plan
       run: terraform plan 
