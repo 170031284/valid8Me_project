@@ -3,7 +3,7 @@ name: Terraform Deployment
 on:
   push:
     branches:
-      - main  # Change to your main branch name
+      - main 
 
 jobs:
   deploy:
@@ -12,31 +12,92 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: "us-east-1a"  # Replace with your AWS region
-      TF_CLI_ARGS: "-input=false -auto-approve"  # Optional Terraform CLI arguments
+      AWS_DEFAULT_REGION: "us-east-1a"
+      TF_CLI_ARGS: "-input=false -auto-approve" 
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: v1.7.3  # Updated Terraform version
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: v1.7.3
 
-    - name: Terraform Init
-      run: terraform init -upgrade=true
+      - name: Terraform Init
+        run: terraform init -upgrade=true
 
-    - name: Terraform Plan
-      run: terraform plan 
+      - name: Terraform Validate
+        run: terraform validate
 
-    - name: Terraform Apply
-      run: terraform apply 
+      - name: Terraform Plan
+        run: terraform plan
 
-    # - name: Cleanup
-    #   run: terraform destroy -auto-approve
-    #   if: always()
+      - name: Terraform Apply
+        run: terraform apply
 
-    - name: Notify on failure
-      if: failure()
-      run: echo "Terraform deployment failed. Check the workflow logs for details."
+      # Optional Cleanup Step
+      #- name: Cleanup
+      #  run: terraform destroy -auto-approve
+      #  if: always()
+
+      - name: Notify on Success
+        if: success()
+        run: echo "Terraform deployment succeeded."
+
+      - name: Notify on Failure
+        if: failure()
+        run: echo "Terraform deployment failed. Check the workflow logs for details."
+
+
+
+
+
+
+
+
+
+
+
+# name: Terraform Deployment
+
+# on:
+#   push:
+#     branches:
+#       - main  # Change to your main branch name
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     env:
+#       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#       AWS_DEFAULT_REGION: "us-east-1a"  # Replace with your AWS region
+#       TF_CLI_ARGS: "-input=false -auto-approve"  # Optional Terraform CLI arguments
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+
+#     - name: Set up Terraform
+#       uses: hashicorp/setup-terraform@v1
+#       with:
+#         terraform_version: v1.7.3  # Updated Terraform version
+
+#     - name: Terraform Init
+#       run: terraform init -upgrade=true
+
+#     - name: Terraform Plan
+#       run: terraform plan 
+
+#     - name: Terraform Apply
+#       run: terraform apply 
+
+#     # - name: Cleanup
+#     #   run: terraform destroy -auto-approve
+#     #   if: always()
+
+#     - name: Notify on failure
+#       if: failure()
+#       run: echo "Terraform deployment failed. Check the workflow logs for details."
