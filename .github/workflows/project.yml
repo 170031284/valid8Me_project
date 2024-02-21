@@ -1,7 +1,7 @@
 name: Terraform CI/CD Pipeline
 
 env:
-  working-directory: ./RAM/Project
+  working-directory: .
 
 on:
   push:
