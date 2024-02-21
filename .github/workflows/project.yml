@@ -28,7 +28,8 @@ jobs:
         terraform --version
 
     - name: Terraform Init
-      run: terraform init -upgrade=true -backend=false
+      run: terraform init $TF_CLI_ARGS -backend=false
+
 
     - name: Terraform Plan
       run: terraform plan 
